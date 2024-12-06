@@ -1,0 +1,16 @@
+# kafka-tcp-route.yaml
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: kafka-tcp
+  namespace: default
+spec:
+  entryPoints:
+    - kafka
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: kafka-svc
+          port: 9092
+          terminationDelay: 400
+          weight: 1

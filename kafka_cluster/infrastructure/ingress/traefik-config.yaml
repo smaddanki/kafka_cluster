@@ -1,0 +1,22 @@
+# traefik-config.yaml
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    ports:
+      kafka:
+        port: 29092
+        expose: true
+        exposedPort: 9092
+        protocol: TCP
+    logs:
+      general:
+        level: DEBUG
+    entryPoints:
+      kafka:
+        address: ":9092"
+        forwardedHeaders:
+          insecure: true

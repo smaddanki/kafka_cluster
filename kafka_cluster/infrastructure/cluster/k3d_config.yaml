@@ -1,0 +1,46 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: kafka-cluster
+servers: 1
+agents: 3
+kubeAPI:
+  host: "0.0.0.0"
+  hostIP: "127.0.0.1"
+  hostPort: "6443"
+ports:
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
+  - port: 9092:9092
+    nodeFilters:
+      - loadbalancer
+  - port: 8080:8080
+    nodeFilters:
+      - loadbalancer
+volumes:
+  - volume: ${HOME}/k3d/data/kafka:/mnt/kafka
+    nodeFilters:
+      - all
+options:
+  k3d:
+    wait: true
+    disableLoadbalancer: false
+    disableImageVolume: false
+  k3s:
+    extraArgs:
+      - arg: --disable=traefik=false
+        nodeFilters:
+          - server:*    
+      - arg: --node-label=topology.kubernetes.io/zone=zone-a
+        nodeFilters:
+          - agent:0
+      - arg: --node-label=topology.kubernetes.io/zone=zone-b
+        nodeFilters:
+          - agent:1
+      - arg: --node-label=topology.kubernetes.io/zone=zone-c
+        nodeFilters:
+          - agent:2

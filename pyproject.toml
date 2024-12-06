@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "kafka-cluster"
+version = "0.1.0"
+description = ""
+authors = ["Sudhamshu Addanki <sudhamshuaddanki@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.13"
+kafka-python-ng = "^2.2.3"
+six = "^1.16.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
